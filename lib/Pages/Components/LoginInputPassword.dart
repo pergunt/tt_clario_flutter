@@ -43,6 +43,7 @@ class _LoginInputPassword extends State<LoginInputPassword> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               BaseTextFormField(
+                maxLength: 64,
                 focusNode: widget.focusNode,
                 error: minValueError || casingError || digitError,
                 hintText: 'Password',

@@ -4,6 +4,7 @@ import "package:flutter/material.dart";
 
 class BaseTextFormField extends StatefulWidget {
   final bool obscureText;
+  final int? maxLength;
   final FocusNode focusNode;
   final String hintText;
   final IconButton? suffixIcon;
@@ -22,7 +23,8 @@ class BaseTextFormField extends StatefulWidget {
     this.keyboardType,
     this.onChange,
     this.customMessages,
-    this.error
+    this.error,
+    this.maxLength
   });
 
   @override
@@ -44,6 +46,7 @@ class _BaseTextFormFieldState extends State<BaseTextFormField> {
     }
 
     return TextFormField(
+      maxLength: widget.maxLength,
       focusNode: widget.focusNode,
       style: TextStyle(color: color),
       obscureText: widget.obscureText,
