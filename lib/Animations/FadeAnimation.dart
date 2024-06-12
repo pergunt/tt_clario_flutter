@@ -4,8 +4,13 @@ import 'package:simple_animations/simple_animations.dart';
 class FadeAnimation extends StatelessWidget {
   final double delay;
   final Widget child;
+  int beginTranslateY;
 
-  FadeAnimation(this.delay, this.child);
+  FadeAnimation({
+    required this.delay,
+    required this.child,
+    this.beginTranslateY = 150
+});
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +24,8 @@ class FadeAnimation extends StatelessWidget {
     )
     .thenTween(
       'translateY',
-      Tween(begin: 130.0, end: 0.0),
-      duration: const Duration(milliseconds: 500),
+      Tween(begin: beginTranslateY, end: 0.0),
+      duration: const Duration(milliseconds: 1000),
       curve: Curves.easeOut
     );
 
