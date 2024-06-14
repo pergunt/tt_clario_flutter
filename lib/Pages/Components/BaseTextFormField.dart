@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import "package:flutter/material.dart";
 
 
@@ -9,19 +8,23 @@ class BaseTextFormField extends StatefulWidget {
   final String hintText;
   final IconButton? suffixIcon;
   final TextInputType? keyboardType;
-  final bool? error;
-  final FormFieldValidator<String>? validator;
+  final Widget? error;
+  final Color color;
+  final String inputValue;
   final List<Text>? customMessages;
-  final Function(String value)? onChange;
+  final Function(String value)? validator;
+  final Function(String value) onChanged;
 
   BaseTextFormField({
     required this.hintText,
     required this.focusNode,
+    required this.onChanged,
+    required this.inputValue,
+    required this.color,
     this.validator,
     this.obscureText = false,
     this.suffixIcon,
     this.keyboardType,
-    this.onChange,
     this.customMessages,
     this.error,
     this.maxLength
@@ -32,53 +35,52 @@ class BaseTextFormField extends StatefulWidget {
 }
 
 class _BaseTextFormFieldState extends State<BaseTextFormField> {
-  String? errorText;
-  String inputValue = '';
+  Widget? required;
 
   Widget build(BuildContext context) {
     var colorScheme = Theme.of(context).colorScheme;
-    var success = errorText == null && widget.error != true;
-    var focused = widget.focusNode.hasFocus;
-    var color = colorScheme.primary;
-
-    if (inputValue.isNotEmpty && !focused) {
-      color = success ? Colors.green : Colors.red;
-    }
+    var errors = [required, widget.error]
+        .where((item) => item != null)
+        .map((widget) => widget!).toList();
+    var dynamicColor = required != null ? Colors.red : widget.color;
 
     return TextFormField(
       maxLength: widget.maxLength,
       focusNode: widget.focusNode,
-      style: TextStyle(color: color),
       obscureText: widget.obscureText,
       keyboardType: widget.keyboardType,
       onChanged: (value) {
-        setState(() {
-          errorText = null;
-          inputValue = value;
-        });
+        widget.onChanged(value);
 
-        if (widget.onChange != null) {
-          widget.onChange!(value);
+        if (required != null) {
+          setState(() {
+            required = null;
+          });
         }
       },
-      validator: (String? value) {
+      validator: (value) {
         if (value == null || value.isEmpty) {
           setState(() {
-            errorText = 'Required';
+            required = Text('Required', style: TextStyle(color: Colors.red),);
           });
+
         } else if (widget.validator != null) {
-          setState(() {
-            errorText = widget.validator!(value);
-          });
+          widget.validator!(value);
         }
 
         return null;
       },
+      style: TextStyle(color: dynamicColor),
       decoration: InputDecoration(
-        suffixIconColor: color,
+        error: errors.isNotEmpty
+          ? Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: errors as List<Widget>,
+        )
+          : null,
         errorStyle: TextStyle(color: Colors.red),
-        errorText: errorText,
         hintText: widget.hintText,
+        suffixIconColor: dynamicColor,
         suffixIcon: widget.suffixIcon,
         filled: true,
         fillColor: Colors.white,
@@ -90,7 +92,7 @@ class _BaseTextFormFieldState extends State<BaseTextFormField> {
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
           borderSide: BorderSide(
-            color: Colors.red,
+            color: dynamicColor,
             width: 1.0,
           ),
         ),
@@ -111,7 +113,7 @@ class _BaseTextFormFieldState extends State<BaseTextFormField> {
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
           borderSide: BorderSide(
-            color: color,
+            color: dynamicColor,
             width: 1.0,
           ),
         ),
