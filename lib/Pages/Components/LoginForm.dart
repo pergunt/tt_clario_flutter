@@ -4,45 +4,8 @@ import 'package:tt_clario_flutter/Pages/Components/LoginInputPassword.dart';
 import 'package:tt_clario_flutter/Animations/FadeAnimation.dart';
 
 
-class FormComponent extends StatefulWidget {
-  @override
-  State<FormComponent> createState() => _FormComponentState();
-}
-
-class _FormComponentState extends State<FormComponent> {
+class FormComponent extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final _emailFocusNode = FocusNode();
-  final _passwordFocusNode = FocusNode();
-  final focusState = {
-    'email': false,
-    'password': false,
-  };
-
-  @override
-  void initState() {
-    _emailFocusNode.addListener(() {
-      _onFocusChange('email', _emailFocusNode.hasFocus);
-    });
-
-    _passwordFocusNode.addListener(() {
-      _onFocusChange('password', _passwordFocusNode.hasFocus);
-    });
-
-    super.initState();
-  }
-
-  void _onFocusChange(String fieldName, bool hasFocus) {
-    setState(() {
-      focusState[fieldName] = hasFocus;
-    });
-  }
-
-  @override
-  void dispose() {
-    _emailFocusNode.dispose();
-    _passwordFocusNode.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,13 +17,13 @@ class _FormComponentState extends State<FormComponent> {
           FadeAnimation(
               delay: .6,
               beginTranslateY: -80,
-              child: LoginInputEmail(_emailFocusNode)
+              child: LoginInputEmail()
           ),
           SizedBox(height: 20),
           FadeAnimation(
               delay: .7,
               beginTranslateY: 50,
-              child: LoginInputPassword(_passwordFocusNode)
+              child: LoginInputPassword()
           ),
           SizedBox(height: 20),
           Padding(

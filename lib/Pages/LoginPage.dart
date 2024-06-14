@@ -2,12 +2,7 @@ import "package:flutter/material.dart";
 import 'package:tt_clario_flutter/Pages/Components/LoginForm.dart';
 import 'package:tt_clario_flutter/Animations/FadeAnimation.dart';
 
-class LoginPage extends StatefulWidget {
-  @override
-  State<LoginPage> createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
+class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var colorScheme = Theme.of(context).colorScheme;

@@ -3,10 +3,6 @@ import 'package:tt_clario_flutter/Pages/Components/BaseTextFormField.dart';
 import 'package:email_validator/email_validator.dart';
 
 class LoginInputEmail extends StatefulWidget {
-  final FocusNode focusNode;
-
-  LoginInputEmail(this.focusNode);
-
   @override
   State<LoginInputEmail> createState() => _LoginInputEmailState();
 }
@@ -21,7 +17,6 @@ class _LoginInputEmailState extends State<LoginInputEmail> {
     var colorScheme = Theme.of(context).colorScheme;
 
     return BaseTextFormField(
-      focusNode: widget.focusNode,
       hintText: 'Email',
       error: error,
       inputValue: inputValue,

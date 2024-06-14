@@ -2,9 +2,6 @@ import "package:flutter/material.dart";
 import 'package:tt_clario_flutter/Pages/Components/BaseTextFormField.dart';
 
 class LoginInputPassword extends StatefulWidget {
-  final FocusNode focusNode;
-  LoginInputPassword(this.focusNode);
-
   @override
   State<LoginInputPassword> createState() => _LoginInputPassword();
 }
@@ -55,7 +52,6 @@ class _LoginInputPassword extends State<LoginInputPassword> {
         BaseTextFormField(
           maxLength: 64,
           color: color ?? colorScheme.primary,
-          focusNode: widget.focusNode,
           inputValue: inputValue,
           error: errors.isEmpty
               ? null

@@ -4,7 +4,6 @@ import "package:flutter/material.dart";
 class BaseTextFormField extends StatefulWidget {
   final bool obscureText;
   final int? maxLength;
-  final FocusNode focusNode;
   final String hintText;
   final IconButton? suffixIcon;
   final TextInputType? keyboardType;
@@ -17,7 +16,6 @@ class BaseTextFormField extends StatefulWidget {
 
   BaseTextFormField({
     required this.hintText,
-    required this.focusNode,
     required this.onChanged,
     required this.inputValue,
     required this.color,
@@ -41,12 +39,12 @@ class _BaseTextFormFieldState extends State<BaseTextFormField> {
     var colorScheme = Theme.of(context).colorScheme;
     var errors = [required, widget.error]
         .where((item) => item != null)
-        .map((widget) => widget!).toList();
+        .map((widget) => widget!)
+        .toList();
     var dynamicColor = required != null ? Colors.red : widget.color;
 
     return TextFormField(
       maxLength: widget.maxLength,
-      focusNode: widget.focusNode,
       obscureText: widget.obscureText,
       keyboardType: widget.keyboardType,
       onChanged: (value) {
