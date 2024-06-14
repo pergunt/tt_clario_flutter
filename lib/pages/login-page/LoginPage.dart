@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
-import 'package:tt_clario_flutter/Pages/Components/LoginForm.dart';
 import 'package:tt_clario_flutter/Animations/FadeAnimation.dart';
+import 'components/index.dart';
 
 class LoginPage extends StatelessWidget {
   @override
@@ -13,7 +13,7 @@ class LoginPage extends StatelessWidget {
           decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/background.png'),
-                fit: BoxFit.contain,
+                fit: BoxFit.cover,
               ),
               gradient: LinearGradient(
                   colors: [
@@ -50,7 +50,7 @@ class LoginPage extends StatelessWidget {
                 SizedBox(height: 20,),
                 Expanded(
                     flex: 2,
-                    child: FormComponent()
+                    child: LoginForm()
                 ),
               ],
             ),

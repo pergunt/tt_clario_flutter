@@ -1,10 +1,8 @@
 import "package:flutter/material.dart";
-import 'package:tt_clario_flutter/Pages/Components/LoginInputEmail.dart';
-import 'package:tt_clario_flutter/Pages/Components/LoginInputPassword.dart';
 import 'package:tt_clario_flutter/Animations/FadeAnimation.dart';
+import 'components/index.dart';
 
-
-class FormComponent extends StatelessWidget {
+class LoginForm extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override

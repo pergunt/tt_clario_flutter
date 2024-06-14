@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import 'package:tt_clario_flutter/Pages/Components/BaseTextFormField.dart';
+import 'package:tt_clario_flutter/components/index.dart';
 
 class LoginInputPassword extends StatefulWidget {
   @override

@@ -1,6 +1,5 @@
 import "package:flutter/material.dart";
-import 'package:tt_clario_flutter/Animations/FadeAnimation.dart';
-import 'package:tt_clario_flutter/Pages/LoginPage.dart';
+import 'pages/main.dart';
 
 void main() {
   runApp(MyApp());
