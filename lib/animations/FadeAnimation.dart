@@ -32,7 +32,7 @@ class FadeAnimation extends StatelessWidget {
       duration: const Duration(milliseconds: 1000),
       curve: Curves.easeOut
     );
-    
+
     return PlayAnimationBuilder(
       delay: Duration(milliseconds: (100 * delay).round()),
       duration: const Duration(milliseconds: 1000),

@@ -30,8 +30,8 @@ class _LoginInputPassword extends State<LoginInputPassword> {
 
   getValidationMap (String value) {
     return {
-      'min': value.length < 8,
-      'charCasing': !RegExp(r'^(?=.*[a-z])(?=.*[A-Z])\S').hasMatch(value),
+      'min': value.trim().replaceAll(RegExp(r'\s'), '').length < 8,
+      'charCasing': !RegExp(r'(?=.*[a-z])(?=.*[A-Z])').hasMatch(value),
       'digit': !RegExp(r'[0-9]').hasMatch(value)
     };
   }
