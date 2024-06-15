@@ -1,5 +1,4 @@
 import "package:flutter/material.dart";
-import 'package:tt_clario_flutter/Animations/FadeAnimation.dart';
 import 'components/index.dart';
 
 class LoginPage extends StatelessWidget {
