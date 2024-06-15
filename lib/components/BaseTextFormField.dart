@@ -7,10 +7,9 @@ class BaseTextFormField extends StatefulWidget {
   final String hintText;
   final IconButton? suffixIcon;
   final TextInputType? keyboardType;
-  final Widget? error;
   final Color color;
   final String inputValue;
-  final List<Text>? customMessages;
+  final List<Map<String, dynamic>>? customMessages;
   final Function(String value)? validator;
   final Function(String value) onChanged;
 
@@ -24,7 +23,6 @@ class BaseTextFormField extends StatefulWidget {
     this.suffixIcon,
     this.keyboardType,
     this.customMessages,
-    this.error,
     this.maxLength
   });
 
@@ -33,89 +31,109 @@ class BaseTextFormField extends StatefulWidget {
 }
 
 class _BaseTextFormFieldState extends State<BaseTextFormField> {
-  Widget? required;
+  String? requiredMessage;
+  String? errorMessage;
 
   Widget build(BuildContext context) {
     var colorScheme = Theme.of(context).colorScheme;
-    var errors = [required, widget.error]
-        .where((item) => item != null)
-        .map((widget) => widget!)
-        .toList();
-    var dynamicColor = required != null ? Colors.red : widget.color;
+    var dynamicColor = requiredMessage != null || errorMessage != null ? Colors.red : widget.color;
 
-    return TextFormField(
-      maxLength: widget.maxLength,
-      obscureText: widget.obscureText,
-      keyboardType: widget.keyboardType,
-      onChanged: (value) {
-        widget.onChanged(value);
 
-        if (required != null) {
-          setState(() {
-            required = null;
-          });
-        }
-      },
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          setState(() {
-            required = Text('Required', style: TextStyle(color: Colors.red),);
-          });
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TextFormField(
+          maxLength: widget.maxLength,
+          obscureText: widget.obscureText,
+          keyboardType: widget.keyboardType,
+          onChanged: (value) {
+            widget.onChanged(value);
 
-        } else if (widget.validator != null) {
-          widget.validator!(value);
-        }
+            if (requiredMessage != null || errorMessage != null) {
+              setState(() {
+                requiredMessage = null;
+                errorMessage = null;
+              });
+            }
+          },
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              setState(() {
+                requiredMessage = 'Required';
+              });
+            } else if (widget.validator != null) {
+              final error = widget.validator!(value);
 
-        return null;
-      },
-      style: TextStyle(color: dynamicColor),
-      decoration: InputDecoration(
-        error: errors.isNotEmpty
-          ? Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: errors as List<Widget>,
-        )
-          : null,
-        errorStyle: TextStyle(color: Colors.red),
-        hintText: widget.hintText,
-        suffixIconColor: dynamicColor,
-        suffixIcon: widget.suffixIcon,
-        filled: true,
-        fillColor: Colors.white,
-        hintStyle: TextStyle(color: Colors.grey),
-        contentPadding: EdgeInsets.symmetric(
-            vertical: 14,
-            horizontal: 20
-        ),
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
-          borderSide: BorderSide(
-            color: dynamicColor,
-            width: 1.0,
+              setState(() {
+                errorMessage = error;
+              });
+            }
+
+            return null;
+          },
+          style: TextStyle(color: dynamicColor),
+          decoration: InputDecoration(
+            errorText: requiredMessage ?? errorMessage,
+            errorStyle: TextStyle(color: Colors.red),
+            hintText: widget.hintText,
+            suffixIconColor: dynamicColor,
+            suffixIcon: widget.suffixIcon,
+            filled: true,
+            fillColor: Colors.white,
+            hintStyle: TextStyle(color: Colors.grey),
+            contentPadding: EdgeInsets.symmetric(
+                vertical: 14,
+                horizontal: 20
+            ),
+            errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.0),
+              borderSide: BorderSide(
+                color: dynamicColor,
+                width: 1.0,
+              ),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.0),
+              borderSide: BorderSide(
+                color: colorScheme.primary,
+                width: 1.0,
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.0),
+              borderSide: BorderSide(
+                color: colorScheme.primary,
+                width: 1.0,
+              ),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.0),
+              borderSide: BorderSide(
+                color: dynamicColor,
+                width: 1.0,
+              ),
+            ),
           ),
         ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
-          borderSide: BorderSide(
-            color: colorScheme.primary,
-            width: 1.0,
+        if (widget.customMessages != null)
+          Padding(
+            padding: EdgeInsets.only(left: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: widget.customMessages!.map((item) {
+                final hasError = item['error'];
+                final message = item['message'] as String;
+
+                return Text(
+                  message,
+                  style: TextStyle(
+                      color: widget.inputValue.isNotEmpty ? (hasError ? Colors.red : Colors.green) : colorScheme.primary
+                  ),
+                );
+              }).toList(),
+            ),
           ),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
-          borderSide: BorderSide(
-            color: colorScheme.primary,
-            width: 1.0,
-          ),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
-          borderSide: BorderSide(
-            color: dynamicColor,
-            width: 1.0,
-          ),
-        ),
-      ),
+      ],
     );
   }
 }

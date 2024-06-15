@@ -1,5 +1,4 @@
 import "package:flutter/material.dart";
-import 'package:tt_clario_flutter/Animations/FadeAnimation.dart';
 import 'components/index.dart';
 
 class LoginForm extends StatelessWidget {
@@ -12,24 +11,13 @@ class LoginForm extends StatelessWidget {
       key: _formKey,
       child: Column(
         children: [
-          FadeAnimation(
-              delay: .6,
-              beginTranslateY: -80,
-              child: LoginInputEmail()
-          ),
+          LoginInputEmail(),
           SizedBox(height: 20),
-          FadeAnimation(
-              delay: .7,
-              beginTranslateY: 50,
-              child: LoginInputPassword()
-          ),
+          LoginInputPassword(),
           SizedBox(height: 20),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 50),
-            child: FadeAnimation(
-              delay: .8,
-              beginTranslateY: 50,
-              child: ElevatedButton(
+            child: ElevatedButton(
                 style: ButtonStyle(
                   padding: WidgetStateProperty.all<EdgeInsets>(EdgeInsets.zero), // Remove padding to make Container fill the button
                   shape: WidgetStateProperty.all<RoundedRectangleBorder>(
@@ -65,7 +53,6 @@ class LoginForm extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
           )
         ],
       ),

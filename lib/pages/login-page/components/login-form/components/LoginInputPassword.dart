@@ -40,73 +40,40 @@ class _LoginInputPassword extends State<LoginInputPassword> {
   Widget build(BuildContext context) {
     var colorScheme = Theme.of(context).colorScheme;
 
-    var errors = customMessages
-        .where((item) => item['error'] == true)
-        .toList();
-    var messages = customMessages
-        .where((item) => item['error'] == false);
+    return BaseTextFormField(
+      maxLength: 64,
+      color: color ?? colorScheme.primary,
+      inputValue: inputValue,
+      hintText: 'Password',
+      obscureText: obscureText,
+      customMessages: customMessages,
+      onChanged: (value) {
+        var validationMap = getValidationMap(value);
+        var hasError = validationMap.values.any((item) => item == true);
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        BaseTextFormField(
-          maxLength: 64,
-          color: color ?? colorScheme.primary,
-          inputValue: inputValue,
-          error: errors.isEmpty
+        setState(() {
+          inputValue = value;
+          color = value.isEmpty
               ? null
-              : Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: errors.map((item) {
-                  return Text(
-                    item['message'] as String,
-                    style: TextStyle(color: Colors.red),
-                  );
-              }).toList()
-          ),
-          hintText: 'Password',
-          obscureText: obscureText,
-          onChanged: (value) {
-            var validationMap = getValidationMap(value);
-            var hasError = validationMap.values.any((item) => item == true);
-
-            setState(() {
-              inputValue = value;
-              color = value.isEmpty
-                  ? null
-                : (hasError ? Colors.red : Colors.green);
-              customMessages = customMessages.map((item) {
-                return {
-                  ...item,
-                  'error': value.isNotEmpty && validationMap[item['type']] == true,
-                };
-              }).toList();
-            });
-          },
-          suffixIcon: IconButton(
-            icon: Icon(
-              obscureText ? Icons.visibility : Icons.visibility_off,
-            ),
-            onPressed: () {
-              setState(() {
-                obscureText = !obscureText;
-              });
-            },
-          ),
+            : (hasError ? Colors.red : Colors.green);
+          customMessages = customMessages.map((item) {
+            return {
+              ...item,
+              'error': value.isNotEmpty && validationMap[item['type']] == true,
+            };
+          }).toList();
+        });
+      },
+      suffixIcon: IconButton(
+        icon: Icon(
+          obscureText ? Icons.visibility : Icons.visibility_off,
         ),
-          Padding(
-            padding: EdgeInsets.only(left: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: messages.map((item) => Text(
-                  item['message'] as String,
-                style: TextStyle(
-                  color: inputValue.isNotEmpty ? Colors.green : colorScheme.primary
-                ),
-              )).toList(),
-            ),
-          )
-      ],
+        onPressed: () {
+          setState(() {
+            obscureText = !obscureText;
+          });
+        },
+      ),
     );
   }
 }

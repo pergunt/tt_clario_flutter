@@ -29,23 +29,19 @@ class LoginPage extends StatelessWidget {
               children: [
                 Expanded(
                   flex: 1,
-                  child: FadeAnimation(
-                      delay: .5,
-                      beginTranslateY: -50,
-                      child:  Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            "Sign up",
-                            style: TextStyle(
-                                color: colorScheme.primary,
-                                fontSize: 28,
-                                fontWeight: FontWeight.bold
-                            ),
-                          )
-                        ],
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        "Sign up",
+                        style: TextStyle(
+                            color: colorScheme.primary,
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold
+                        ),
                       )
-                  ),
+                    ],
+                  )
                 ),
                 SizedBox(height: 20,),
                 Expanded(

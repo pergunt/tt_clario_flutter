@@ -8,7 +8,6 @@ class LoginInputEmail extends StatefulWidget {
 }
 
 class _LoginInputEmailState extends State<LoginInputEmail> {
-  Widget? error;
   String inputValue = '';
   Color? color;
 
@@ -18,32 +17,29 @@ class _LoginInputEmailState extends State<LoginInputEmail> {
 
     return BaseTextFormField(
       hintText: 'Email',
-      error: error,
       inputValue: inputValue,
       color: color ?? colorScheme.primary,
       keyboardType: TextInputType.emailAddress,
       onChanged: (value) {
         setState(() {
-          color = null;
-          error = null;
           inputValue = value;
+          color = null;  // Reset color when input changes
         });
       },
       validator: (value) {
-        Text? newError;
-
         if (!EmailValidator.validate(value)) {
-          newError = Text('Invalid Email', style: TextStyle(color: Colors.red),);
+          setState(() {
+            color = Colors.red;
+          });
+
+          return 'Invalid Email';
         } else {
-          newError = null;
+          setState(() {
+            color = Colors.green;
+          });
+
+          return null;
         }
-
-        setState(() {
-          error = newError;
-          color = newError != null ? Colors.red : Colors.green;
-        });
-
-        return null;
       },
     );
   }
