@@ -17,7 +17,7 @@ class LoginForm extends StatelessWidget {
           FadeAnimation(delay: 3, child: LoginInputPassword(),),
           SizedBox(height: 20),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 50),
+            padding: EdgeInsets.only(left: 50, right: 50, bottom: 50),
             child: FadeAnimation(delay: 5, child: ElevatedButton(
                 style: ButtonStyle(
                   padding: WidgetStateProperty.all<EdgeInsets>(EdgeInsets.zero), // Remove padding to make Container fill the button
