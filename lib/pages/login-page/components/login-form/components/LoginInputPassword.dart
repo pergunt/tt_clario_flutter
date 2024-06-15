@@ -8,7 +8,6 @@ class LoginInputPassword extends StatefulWidget {
 
 class _LoginInputPassword extends State<LoginInputPassword> {
   bool obscureText = true;
-  String inputValue = '';
   Color? color;
 
   var customMessages = [
@@ -43,7 +42,6 @@ class _LoginInputPassword extends State<LoginInputPassword> {
     return BaseTextFormField(
       maxLength: 64,
       color: color ?? colorScheme.primary,
-      inputValue: inputValue,
       hintText: 'Password',
       obscureText: obscureText,
       customMessages: customMessages,
@@ -52,7 +50,6 @@ class _LoginInputPassword extends State<LoginInputPassword> {
         var hasError = validationMap.values.any((item) => item == true);
 
         setState(() {
-          inputValue = value;
           color = value.isEmpty
               ? null
             : (hasError ? Colors.red : Colors.green);

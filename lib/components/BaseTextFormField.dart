@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 
 
@@ -8,7 +9,6 @@ class BaseTextFormField extends StatefulWidget {
   final IconButton? suffixIcon;
   final TextInputType? keyboardType;
   final Color color;
-  final String inputValue;
   final List<Map<String, dynamic>>? customMessages;
   final Function(String value)? validator;
   final Function(String value) onChanged;
@@ -16,7 +16,6 @@ class BaseTextFormField extends StatefulWidget {
   BaseTextFormField({
     required this.hintText,
     required this.onChanged,
-    required this.inputValue,
     required this.color,
     this.validator,
     this.obscureText = false,
@@ -33,11 +32,11 @@ class BaseTextFormField extends StatefulWidget {
 class _BaseTextFormFieldState extends State<BaseTextFormField> {
   String? requiredMessage;
   String? errorMessage;
+  final ValueNotifier<String> inputValue = ValueNotifier('');
 
   Widget build(BuildContext context) {
     var colorScheme = Theme.of(context).colorScheme;
     var dynamicColor = requiredMessage != null || errorMessage != null ? Colors.red : widget.color;
-
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,6 +47,7 @@ class _BaseTextFormFieldState extends State<BaseTextFormField> {
           keyboardType: widget.keyboardType,
           onChanged: (value) {
             widget.onChanged(value);
+            inputValue.value = value;
 
             if (requiredMessage != null || errorMessage != null) {
               setState(() {
@@ -61,6 +61,7 @@ class _BaseTextFormFieldState extends State<BaseTextFormField> {
               setState(() {
                 requiredMessage = 'Required';
               });
+
             } else if (widget.validator != null) {
               final error = widget.validator!(value);
 
@@ -118,19 +119,28 @@ class _BaseTextFormFieldState extends State<BaseTextFormField> {
         if (widget.customMessages != null)
           Padding(
             padding: EdgeInsets.only(left: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: widget.customMessages!.map((item) {
-                final hasError = item['error'];
-                final message = item['message'] as String;
+            child: ValueListenableBuilder(
+                valueListenable: inputValue,
+                builder: (context, value, _) {
+                  if (widget.customMessages == null) {
+                    return SizedBox();
+                  }
 
-                return Text(
-                  message,
-                  style: TextStyle(
-                      color: widget.inputValue.isNotEmpty ? (hasError ? Colors.red : Colors.green) : colorScheme.primary
-                  ),
-                );
-              }).toList(),
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: widget.customMessages!.map((item) {
+                      final hasError = item['error'];
+                      final message = item['message'] as String;
+
+                      return Text(
+                        message,
+                        style: TextStyle(
+                            color: value.isNotEmpty ? (hasError ? Colors.red : Colors.green) : colorScheme.primary
+                        ),
+                      );
+                    }).toList(),
+                  );
+                }
             ),
           ),
       ],
