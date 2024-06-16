@@ -45,7 +45,7 @@ class _InputPassword extends State<InputPassword> {
 
     return BaseTextFormField(
       maxLength: 64,
-      color: color ?? colorScheme.primary,
+      color: color,
       hintText: 'Password',
       obscureText: obscureText,
       onChanged: (value) {

@@ -14,11 +14,27 @@ class LoginForm extends StatelessWidget {
       key: _formKey,
       child: Column(
         children: [
-          FadeAnimation(delay: 2, child: InputEmail()),
+          FadeAnimation(
+            delay: 0.1,
+            child: InputEmail(),
+            getOffset: (value) => Offset(-value, 0)
+          ),
           SizedBox(height: 20),
-          FadeAnimation(delay: 3, child: InputPassword(),),
+          FadeAnimation(
+            delay: 4,
+            child: InputPassword(),
+            getOffset: (value) => Offset(value, 0)
+          ),
           SizedBox(height: 20),
-          FadeAnimation(delay: 4, child: SubmitButton(formKey: _formKey,))
+          FadeAnimation(
+              delay: 8,
+              child: SubmitButton(
+                onPressed: () {
+                  _formKey.currentState!.validate();
+                },
+              ),
+              getOffset: (value) => Offset(0, value)
+          )
         ],
       ),
     );

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class SubmitButton extends StatelessWidget {
-  final GlobalKey<FormState> formKey;
+  final Function() onPressed;
 
   SubmitButton({
     super.key,
-    required this.formKey
+    required this.onPressed
   });
 
   @override
@@ -22,9 +22,7 @@ class SubmitButton extends StatelessWidget {
               ),
             ),
           ),
-          onPressed: () {
-            formKey.currentState!.validate();
-          },
+          onPressed: onPressed,
           child: Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(

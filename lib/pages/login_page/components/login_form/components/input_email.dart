@@ -14,11 +14,9 @@ class _InputEmailState extends State<InputEmail> {
 
   @override
   Widget build(BuildContext context) {
-    var colorScheme = Theme.of(context).colorScheme;
-
     return BaseTextFormField(
       hintText: 'Email',
-      color: color ?? colorScheme.primary,
+      color: color,
       keyboardType: TextInputType.emailAddress,
       onChanged: (value) {
         if (color != null) {

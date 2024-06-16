@@ -6,7 +6,7 @@ class BaseTextFormField extends StatefulWidget {
   final String hintText;
   final IconButton? suffixIcon;
   final TextInputType? keyboardType;
-  final Color color;
+  final Color? color;
   final Function(String value)? validator;
   final Function(String value) onChanged;
   final Widget? customError;
@@ -15,7 +15,7 @@ class BaseTextFormField extends StatefulWidget {
     super.key,
     required this.hintText,
     required this.onChanged,
-    required this.color,
+    this.color,
     this.validator,
     this.obscureText = false,
     this.suffixIcon,
@@ -35,7 +35,8 @@ class _BaseTextFormFieldState extends State<BaseTextFormField> {
   @override
   Widget build(BuildContext context) {
     var colorScheme = Theme.of(context).colorScheme;
-    var dynamicColor = requiredMessage != null || errorMessage != null ? Colors.red : widget.color;
+    var hasError = requiredMessage != null || errorMessage != null;
+    var dynamicColor = hasError ? Colors.red : (widget.color ?? colorScheme.primary);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
