@@ -8,6 +8,7 @@ class LoginInputPassword extends StatefulWidget {
 
 class _LoginInputPassword extends State<LoginInputPassword> {
   bool obscureText = true;
+  String inputValue = '';
   Color? color;
 
   var customMessages = [
@@ -44,12 +45,12 @@ class _LoginInputPassword extends State<LoginInputPassword> {
       color: color ?? colorScheme.primary,
       hintText: 'Password',
       obscureText: obscureText,
-      customMessages: customMessages,
       onChanged: (value) {
         var validationMap = getValidationMap(value);
         var hasError = validationMap.values.any((item) => item == true);
 
         setState(() {
+          inputValue = value;
           color = value.isEmpty
               ? null
             : (hasError ? Colors.red : Colors.green);
@@ -71,6 +72,20 @@ class _LoginInputPassword extends State<LoginInputPassword> {
           });
         },
       ),
+      customError: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: customMessages.map((item) {
+          final hasError = item['error'] as bool;
+          final message = item['message'] as String;
+
+          return Text(
+            message,
+            style: TextStyle(
+                color: inputValue.isNotEmpty ? (hasError ? Colors.red : Colors.green) : colorScheme.primary
+            ),
+          );
+        }).toList(),
+      )
     );
   }
 }
