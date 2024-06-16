@@ -1,7 +1,9 @@
-import "package:flutter/material.dart";
+import 'package:flutter/material.dart';
 import 'package:tt_clario_flutter/components/index.dart';
 
 class LoginInputPassword extends StatefulWidget {
+  LoginInputPassword({super.key,});
+
   @override
   State<LoginInputPassword> createState() => _LoginInputPassword();
 }
@@ -13,17 +15,17 @@ class _LoginInputPassword extends State<LoginInputPassword> {
 
   var customMessages = [
     {
-      'type': "min",
+      'type': 'min',
       'message': '8 characters or more (no spaces)',
       'error': false
     },
     {
-      'type': "charCasing",
+      'type': 'charCasing',
       'message': 'Uppercase and lowercase letters',
       'error': false
     },
     {
-      'type': "digit",
+      'type': 'digit',
       'message': 'At least one digit',
       'error': false
     },
@@ -37,6 +39,7 @@ class _LoginInputPassword extends State<LoginInputPassword> {
     };
   }
 
+  @override
   Widget build(BuildContext context) {
     var colorScheme = Theme.of(context).colorScheme;
 

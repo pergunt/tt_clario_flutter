@@ -1,8 +1,10 @@
-import "package:flutter/material.dart";
+import 'package:flutter/material.dart';
 import 'components/index.dart';
-import 'package:tt_clario_flutter/Animations/FadeAnimation.dart';
+import 'package:tt_clario_flutter/Animations/fade_animation.dart';
 
 class LoginForm extends StatelessWidget {
+  LoginForm({super.key,});
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override

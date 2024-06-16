@@ -1,4 +1,4 @@
-import "package:flutter/material.dart";
+import 'package:flutter/material.dart';
 
 class BaseTextFormField extends StatefulWidget {
   final bool obscureText;
@@ -12,6 +12,7 @@ class BaseTextFormField extends StatefulWidget {
   final Widget? customError;
 
   BaseTextFormField({
+    super.key,
     required this.hintText,
     required this.onChanged,
     required this.color,
@@ -31,6 +32,7 @@ class _BaseTextFormFieldState extends State<BaseTextFormField> {
   String? requiredMessage;
   String? errorMessage;
 
+  @override
   Widget build(BuildContext context) {
     var colorScheme = Theme.of(context).colorScheme;
     var dynamicColor = requiredMessage != null || errorMessage != null ? Colors.red : widget.color;

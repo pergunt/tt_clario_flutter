@@ -1,8 +1,10 @@
-import "package:flutter/material.dart";
+import 'package:flutter/material.dart';
 import 'package:tt_clario_flutter/components/index.dart';
 import 'package:email_validator/email_validator.dart';
 
 class LoginInputEmail extends StatefulWidget {
+  LoginInputEmail({super.key,});
+
   @override
   State<LoginInputEmail> createState() => _LoginInputEmailState();
 }

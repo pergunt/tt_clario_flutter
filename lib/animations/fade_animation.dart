@@ -6,6 +6,7 @@ class FadeAnimation extends StatelessWidget {
   final Widget child;
 
   FadeAnimation({
+    super.key,
     required this.delay,
     required this.child,
   });
