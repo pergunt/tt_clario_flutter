@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:tt_clario_flutter/components/index.dart';
 
-class LoginInputPassword extends StatefulWidget {
-  LoginInputPassword({super.key,});
+class InputPassword extends StatefulWidget {
+  InputPassword({super.key,});
 
   @override
-  State<LoginInputPassword> createState() => _LoginInputPassword();
+  State<InputPassword> createState() => _InputPassword();
 }
 
-class _LoginInputPassword extends State<LoginInputPassword> {
+class _InputPassword extends State<InputPassword> {
   bool obscureText = true;
   String inputValue = '';
   Color? color;
