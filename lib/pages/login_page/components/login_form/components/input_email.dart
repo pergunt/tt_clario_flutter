@@ -6,11 +6,28 @@ class InputEmail extends StatefulWidget {
   InputEmail({super.key,});
 
   @override
-  State<InputEmail> createState() => _InputEmailState();
+  State<InputEmail> createState() => InputEmailState();
 }
 
-class _InputEmailState extends State<InputEmail> {
+class InputEmailState extends State<InputEmail> {
   Color? color;
+  String inputValue = '';
+
+  validate(String? value) {
+    if (!EmailValidator.validate(value?? inputValue)) {
+      setState(() {
+        color = Colors.red;
+      });
+
+      return 'Invalid Email';
+    } else {
+      setState(() {
+        color = Colors.green;
+      });
+
+      return null;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,26 +36,13 @@ class _InputEmailState extends State<InputEmail> {
       color: color,
       keyboardType: TextInputType.emailAddress,
       onChanged: (value) {
-        if (color != null) {
-          setState(() {
-            color = null;  // Reset color when input changes
-          });
-        }
+        setState(() {
+          inputValue = value;
+          color = null;  // Reset color when input changes
+        });
       },
       validator: (value) {
-        if (!EmailValidator.validate(value)) {
-          setState(() {
-            color = Colors.red;
-          });
-
-          return 'Invalid Email';
-        } else {
-          setState(() {
-            color = Colors.green;
-          });
-
-          return null;
-        }
+        return validate(value);
       },
     );
   }

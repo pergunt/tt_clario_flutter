@@ -5,10 +5,17 @@ class InputPassword extends StatefulWidget {
   InputPassword({super.key,});
 
   @override
-  State<InputPassword> createState() => _InputPassword();
+  State<InputPassword> createState() => InputPasswordState();
 }
 
-class _InputPassword extends State<InputPassword> {
+class ValidationResult {
+  final Map<String, bool> validationMap;
+  final bool hasError;
+
+  ValidationResult({required this.validationMap, required this.hasError});
+}
+
+class InputPasswordState extends State<InputPassword> {
   bool obscureText = true;
   String inputValue = '';
   Color? color;
@@ -31,12 +38,21 @@ class _InputPassword extends State<InputPassword> {
     },
   ];
 
-  getValidationMap (String value) {
+  Map<String, bool> getValidationMap (String value) {
     return {
       'min': value.trim().replaceAll(RegExp(r'\s'), '').length < 8,
       'charCasing': !RegExp(r'(?=.*[a-z])(?=.*[A-Z])').hasMatch(value),
       'digit': !RegExp(r'[0-9]').hasMatch(value)
     };
+  }
+
+  validate(String? value) {
+    var validationMap = getValidationMap(value ?? inputValue);
+
+    return ValidationResult(
+      validationMap: validationMap,
+      hasError: validationMap.values.any((item) => item == true)
+    );
   }
 
   @override
@@ -49,18 +65,17 @@ class _InputPassword extends State<InputPassword> {
       hintText: 'Password',
       obscureText: obscureText,
       onChanged: (value) {
-        var validationMap = getValidationMap(value);
-        var hasError = validationMap.values.any((item) => item == true);
+        ValidationResult validationResult = validate(value);
 
         setState(() {
           inputValue = value;
           color = value.isEmpty
               ? null
-            : (hasError ? Colors.red : Colors.green);
+            : (validationResult.hasError ? Colors.red : Colors.green);
           customMessages = customMessages.map((item) {
             return {
               ...item,
-              'error': value.isNotEmpty && validationMap[item['type']] == true,
+              'error': value.isNotEmpty && validationResult.validationMap[item['type']] == true,
             };
           }).toList();
         });
